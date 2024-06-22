@@ -1,54 +1,45 @@
 <template>
-    <el-container style="overflow: hidden;">  
-    <el-aside style="height: 100%; width: 20%">  
+  <el-container class="reception-page">
+    <el-container class="background">  
+    <!-- <el-aside style="height: 100%; width: 20%">  
       <MenuRight class="menu"/>  
-    </el-aside>  
-    
-    <el-container style="display: flex; flex-wrap: wrap; height: 100%; width: 80%; overflow: hidden;">  
-      <ManagerHeader :identity="identity.identity" :num="identity.num" :total="identity.total" class="managerheader" style=" height: 10%"/>
-      <el-container style="display: flex; flex-wrap: wrap; width: 800px; height: 750px; overflow: scroll;"> 
+    </el-aside>   -->
+    <UserHeader />
+    <div class="room-table"> 
         <div  
           v-for="(room, index) in rooms"  
-          :key="index"  
-          style="width: 200px; margin: 6px; padding: 0;"  
-        >  
-          <RoomGrid :room_id="room.id" :cost="room.cost" :state="room.state" :role="userRole" 
+          :key="index"  class="room-grid-wrapper" >  
+          <RoomGridMA :room_id="room.id" :room_name="room.name" :state="room.state" @chengeState="chengeState"
           style="margin: 0; padding: 0;" />  
-        </div>  
-      </el-container>
-    </el-container>  
-  </el-container>  
+        </div>
+      </div>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
-import MenuRight from '../../components/MenuRight/menuright.vue'
-import RoomGrid from '../../components/RoomGrid/roomgrid.vue'
-import ManagerHeader from '../../components/ManagerHeader/managerheader.vue'
-import api from '../../api';
+import RoomGridMA from '@/components/RoomGrid/roomgrid_ma.vue'
+import UserHeader from '@/components/header/userheader.vue'
+import api from '@/api';
 export default {
   name: 'PanelView',
   computed: {
-    userRole() {
-      return this.$store.state.user;
-    }
   },
   data() {
     return {
-      identity: {identity:"经理", total: 0, num: 0},
-      rooms: [],  
+      rooms: [], 
     }
   }, 
   created() {  
     api.getRoomList()  
       .then(response => {  
+        response = response.data
         response.data.forEach(room => {  
-          this.identity.total += 1;
-          if (room.checkin === 0) {  
-            room.state = 'empty';  
-            this.identity.num += 1;
+          if (room.use === 0) {  
+            room.state = 'empty';
           }  
           else{
-            room.state = 'occupied'
+            room.state = 'occupied';
           }
         });  
         this.rooms = response.data;  
@@ -58,27 +49,59 @@ export default {
       });  
   },  
   components: {
-    ManagerHeader,
-    MenuRight,
-    RoomGrid,
+    RoomGridMA,
+    UserHeader
   },
   methods: {
-    
+    chengeState(roomId, newState) {
+      const room = this.rooms.find(room => roomId === room.id);
+      if(room) {
+        room.state = newState;
+      }
+    }
   }
 }
 </script>
 
-<style>
-.container {
-  display: flex;
-  flex-direction: row;
+<style scoped>
+.html, body {
+  margin: 0;
+  padding: 0;
   height: 100vh;
+  font-family: 'Arial', sans-serif;
+  overflow: auto;
 }
-.menu {
-  height: 100%
+
+.reception-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
-.content {
-  flex: 1;  /* 使 RoomGrid 填充容器的剩余空间 */
+
+.background {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100vw;
+  height: 100%;
+  opacity: 0.9;
+  background-color: #D1D1B9;
+  box-sizing: border-box;
+  overflow: auto;
+  padding-top: 17vh;
+}
+
+.room-table {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  width: 80%;
+  height: auto;
+}
+
+.room-grid-wrapper {
+  width: 200px;
+  padding: 0;
 }
 
 </style>

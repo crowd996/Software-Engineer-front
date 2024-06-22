@@ -4,12 +4,12 @@ import router from './router'
 import store from './store';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-import websocket from 'vue-native-websocket';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faXmark, faFan, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { faXmark, faFan, faArrowUp, faArrowDown, faGear } from '@fortawesome/free-solid-svg-icons'
+import EventBus from './eventBus';
 
-library.add(faXmark, faFan, faArrowUp, faArrowDown)
+library.add(faXmark, faFan, faArrowUp, faArrowDown, faGear)
 
 const user = localStorage.getItem('user');
 if (user) {
@@ -18,13 +18,7 @@ if (user) {
 
 const app = createApp(App);
 
-// app.use(websocket, '', {
-//     connectManually: true, // 手动连接
-//     format: 'json', // json格式
-//     reconnection: true, // 是否自动重连
-//     reconnectionAttempts: 5, // 自动重连次数
-//     reconnectionDelay: 2000, // 重连间隔时间
-// });
+app.config.globalProperties.$eventBus = EventBus
 
 // load router
 app.use(store);

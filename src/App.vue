@@ -7,6 +7,13 @@
 </template>
 
 <style scoped>
+
+html, body, #app {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
 header {
   line-height: 1.5;
 }

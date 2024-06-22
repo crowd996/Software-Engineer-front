@@ -7,13 +7,13 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <div style="margin-top: 40px"></div>
+        <div style="margin-top: 10px"></div>
         <div>
-          <el-image :src="bupt_words" style="width: 350px;" fit="contain"></el-image>
+          <el-image :src="hotel_icon" style="width: 220px;" fit="contain"></el-image>
         </div>
       </el-col>
       <el-col :span="12">
-        <div style="margin-top: 25px"></div>
+        <div style="margin-top: 25px; justify-content: center;"></div>
         <LoginForm />
       </el-col>
     </el-row>
@@ -23,7 +23,7 @@
 
 <script>
 import LoginForm from "./loginform.vue";
-import bupt_words from "../../assets/photos/buptwords.jpg";
+import hotel_icon from "@/assets/photos/hotel-icon.png";
 
 export default{
   name:"LoginCard",
@@ -32,7 +32,7 @@ export default{
   },
   data(){
     return{
-      bupt_words
+      hotel_icon
     }
   },
   methods:{

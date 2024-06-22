@@ -10,7 +10,7 @@
   </template>
   
   <script>
-  import hotel_icon from "../../assets/photos/hotel-icon.png";
+  import hotel_icon from "@/assets/photos/hotel-icon.png";
 
   export default {
     name: 'LoginHeader',

@@ -27,31 +27,21 @@ export default {
   },
   data() {
     return {
-      rooms: [
-        { id: 1,name: 408,state: 'occupied' },
-        { id: 2,name: 409,state: 'empty' },
-        { id: 3,name: 410,state: 'occupied' },
-        { id: 4,name: 411,state: 'empty' },
-        { id: 5,name: 511,state: 'occupied' },
-        { id: 6,name: 601,state: 'empty' },
-        { id: 7,name: 722,state: 'occupied' },
-        { id: 8,name: 813,state: 'empty' },
-        { id: 9,name: 910,state: 'occupied' }
-      ], 
+      rooms: [], 
     }
   }, 
   created() {  
     api.getRoomList()  
       .then(response => {  
-        response.data.forEach(room => {  
+        response.data.data.forEach(room => {  
           if (room.use === 0) {  
-            room.state = 'empty';  
+            room.state = 'empty';
           }  
           else{
-            room.state = 'occupied'
+            room.state = 'occupied';
           }
         });  
-        this.rooms = response.data;  
+        this.rooms = response.data.data;  
       })  
       .catch(error => {  
         console.log(error);  

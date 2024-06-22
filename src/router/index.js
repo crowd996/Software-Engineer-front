@@ -25,12 +25,12 @@ const routes = [
   {
     path: "/ac",
     name: "AC",
-    component: () => import("../views/AC_board/ACView2.vue"),
+    component: () => import("../views/AC_board/ACView.vue"),
     meta: { requiresAuth: true }
   },
   {
-    path: "/componentDemo",
-    name: "ComponentDemo",
+    path: "/404",
+    name: "404",
     component: () => import("../views/error/404.vue"),
     meta: { requiresAuth: true }
   },
@@ -51,6 +51,12 @@ const routes = [
     name: "Manager",
     component: () => import("../views/manager/Manager.vue"),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import("../views/error/404.vue"),
+    meta: { requiresAuth: false }
   }
 ];
 
@@ -60,11 +66,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  /*if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLoggedIn && !localStorage.getItem('user')) {
       // 如果用户未登录，重定向到登录页面
-      next({ path: '/login',
-            query: { redirect: to.fullPath } });
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      });
     } else {
       // 如果用户已登录，允许访问
       next();
@@ -72,7 +80,7 @@ router.beforeEach((to, from, next) => {
   } else {
     // 如果路由不需要认证，直接前往
     next();
-  }*/
+  }
   next();
 });
 

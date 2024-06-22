@@ -1,5 +1,4 @@
 import axios from 'axios'
-import qs from 'qs'
 
 function errorHandle(status, other) {
   switch (status) {

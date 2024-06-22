@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import ValidCode from '../ValidCode/validcode.vue';
-import api from '../../api';
+import ValidCode from '@/components/ValidCode/validcode.vue';
+import api from '@/api';
 import { ElMessage } from 'element-plus';
-import {h} from 'vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'LoginForm',
@@ -52,6 +52,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login',]),
     onSubmit() {
       console.log('validating...');
       // first validate the verify code
@@ -68,22 +69,30 @@ export default {
         .then(res => {
           console.log(res);
           if (res.status == 200) {
+            res = res.data
             console.log('login success');
             console.log(res.data.token)
             let role = null;
-            if (identity == '0') {
+            let authority = null;
+            authority = res.data.role[0].authority;
+            if (authority === "ROLE_ACADMIN") {
               // admin: 空调管理员
               role = 'admin';
             }
-            else if (identity == '1') {
+            else if (authority === "ROLE_FRONTDESK") {
               // reception: 前台
               role = 'reception';
             }
-            else if (identity == '2') {
+            else if (authority === "ROLE_MANAGER") {
               // manager: 酒店经理
               role = 'manager';
             }
-            this.$store.commit('setLogin', role,res.data.token);
+            else if(authority === "ROLE_CUSTOMER") {
+              // customer: 顾客
+              role = 'customer';
+            }
+            this.login({user:role,token:res.data.token});
+            //this.$store.commit('setLogin', role,res.data.token);
             this.redirectUser(role);
           }
           else {
@@ -95,21 +104,6 @@ export default {
         }).catch(err => {
           console.log(err);
         });
-        let role = null;
-          if (this.formLabelAlign.username == 'admin') {
-            // admin: 空调管理员
-            role = 'admin';
-          }
-          else if (this.formLabelAlign.username == 'reception') {
-            // reception: 前台
-            role = 'reception';
-          }
-          else if (this.formLabelAlign.username == 'manager') {
-            // manager: 酒店经理
-            role = 'manager';
-          }
-          this.$store.commit('setLogin', role);
-          this.redirectUser(role);
       }
     },
     getCode(code) {
@@ -127,7 +121,7 @@ export default {
         this.$router.push('/manager');
       }
       else if(role == 'customer'){
-        this.$router.push('/customer')
+        this.$router.push('/client')
       }
     }
   }

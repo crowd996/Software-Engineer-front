@@ -36,6 +36,8 @@
             this.$router.push({path: '/login'});
           }
         })
+        this.$store.commit('logout');
+        this.$router.push('/login');
       }
     }
   }

@@ -1,5 +1,5 @@
 const base = {
-  baseUrl: "https://iwenwiki.com",
+  baseUrl: "http://43.143.173.140/api",
   //权限相关
   login: "/user/login",
   logout: "/user/logout",
@@ -17,29 +17,19 @@ const base = {
   queryRecordInfo: "/record/list/page",
   queryRecordByUN: "/record/username",
   queryRecordByToken: "/record/",
+  recordInfoById: "/record/room",
 
   //账单相关
   billByRecordId: "/bill/record",
   excelBill: "/bill/excel",
   excelDetail: "/bill/detail/excel",
 
-  chengpin: "/api/blueberrypai/getChengpinDetails.php",
-  localTEST: "/api/getData",
+  //空调管理员
+  checkBound: "/temperature/bound",
+  changeBound: "/temperature/bound",
 
-
-
-  turnOn: "/api/turn_on",
-  turnOff: "/api/turn_off",
-  setTemperature: "/api/setTemperature",
-  setTemperatureInit: "/api/setTemperature_init",
-  setSpeed: "/api/setSpeed",
-  queryRoomInfo: "/api/query_room_info",
-  updateRooms: "/api/rooms/updateRooms",
-
-  getForm: "/api/form/rep",
-  send_cur_temp: "/api/send_current_temp",
-  detail: "/api/detail_bill",
-  bill: "/api/query_room_bill"
+  //统计信息
+  roomStatisticInfo: "/statisticInfo/room",
 }
 
 export default base;

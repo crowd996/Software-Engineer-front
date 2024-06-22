@@ -2,12 +2,12 @@
     <div>
         <section class="error-page">
             <div class="info">
-                <img src="https://storytale-public2.b-cdn.net/2021/08/16/79ea3d66-1f76-4b28-ae87-a77aa9a7dbb0-Sailor.png?height=348"/>
+                <img :src="hotel_icon" style="width: 400px;"/>
                 <h2 class="error-title"> 404 ERROR</h2>
                 <p>您所访问的页面不存在，它或已被移动，删除或者重命名。</p>
                 <p>请访问其他页面</p>
                 <nav>
-                    <RouterLink :to="{ path: '/', replace: true }">Back To Home</RouterLink>
+                    <RouterLink :to="{ path: '/', replace: true }" style="font-weight: 700;">Back To Home</RouterLink>
                 </nav>
 
             </div>
@@ -15,6 +15,17 @@
     </div>
 
 </template>
+
+<script>
+import hotel_icon from "@/assets/photos/hotel-icon.png";
+export default{
+  data(){
+    return{
+      hotel_icon
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
     .error-page {

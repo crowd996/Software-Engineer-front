@@ -1,28 +1,25 @@
 <template>
     <el-card @click="OfferDetail" @mouseover="handleMouseOver" @mouseout="handleMouseOut"
-    :class="{hovered: isHovered, 'red-bg': state === 'error', 'green-bg': state === 'work', 'gray-bg': state === 'stop'}" 
-    style="width: 200px; height: 150px;">
-      <div class="text item" style="padding: 5px;">Room ID: {{ room_id }}</div>
-      <div class="text item" style="padding: 5px;">temperature: {{ temperature }}</div>
-      <div class="text item" style="padding: 5px;">wind speed: {{ windSpeedText }}</div>
-      <div class="text item" style="padding: 5px;">state: {{ state }}</div>
+    :class="{hovered: isHovered,'card':true}" 
+    style="width: 200px; height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;">
+    <div class="text-rm" style="font-size: 30px; font-weight: bold; text-align: center;">
+      {{ room_id }}
+    </div>
+    <div class="text-temp" style="font-size: 18px; text-align: center;">
+      {{ temperature }}°C
+    </div>
+    <div class="wind-speed" style="display: flex; justify-content: center; align-items: center;">
+      <font-awesome-icon
+        v-for="n in 3"
+        :key="n"
+        :icon="['fas', 'fan']"
+        :class="{'wind-icon-black': n <= wind_speed, 'wind-icon-gray': n > wind_speed}"
+        style="margin-left: 5px;"/>
+    </div>
+      <div :class="{'dot-green':state === 'work', 'dot-red': state === 'unuse', 'dot-gray': state === 'wait'}" 
+      style="position: absolute; bottom: 10px; right: 10px; width: 20px; height: 20px; border-radius: 50%;">
+    </div>
     </el-card>
-
-
-  <el-dialog
-    v-model="dialogVisible"
-    title="详情"
-    width="55%"
-  >
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="primary" @click="checkout">
-          报修
-        </el-button>
-        <el-button @click="dialogVisible = false">关闭</el-button>
-      </span>
-    </template>
-  </el-dialog>  
 </template>
   
   <script>
@@ -57,7 +54,7 @@
     methods: {
       OfferDetail() {
         console.log("OfferDetail");
-        this.dialogVisible = true;
+        this.dialogVisible = false;
       },
       handleMouseOver() {
         this.isHovered = true;
@@ -73,25 +70,39 @@
   </script>
   
   <style scoped>
-  /* 基本样式 */
   .el-card {
-    transition: border 0.3s; /* 平滑的过渡效果 */
+    transition: border 0.3s;
   }
   
-  /* 悬停效果 */
   .el-card.hovered {
     border: 1px solid rgb(29, 168, 215);
     cursor: pointer;
   }
-  .el-card.green-bg {  
-  background-color: #C8E6C9;   
-} 
-  .el-card.red-bg {  
-    background-color: #FFC0CB;   
+  
+  .card {
+    background-color: rgb(238, 231, 231);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
 
-  .el-card.gray-bg {  
-    background-color: gray;   
-  } 
-  /* 可以根据需要添加其他样式 */
+  .card.hovered {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .dot-green {
+    background-color: #00ff00;
+    }
+  .dot-red {
+    background-color: #ff0000;
+  }
+  .dot-gray {
+    background-color: #808080;
+  }
+
+  .wind-icon-black {
+    color: black;
+  }
+  .wind-icon-gray {
+    color: gray;
+  }
   </style>
